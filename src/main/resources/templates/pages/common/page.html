@@ -1,0 +1,62 @@
+<ul class="pagination pagination-sm no-margin pull-right">
+    <li><a class="first">首页</a></li>
+	<li><a class="pre">上一页</a></li>
+	<li><a class="next">下一页</a></li>
+	<li><a class="last">尾页</a></li>
+	<li><a class="rowCount">总记录数(0)</a></li>
+	<li><a class="pageCount">总页数(0)</a></li>
+	<li><a class="pageCurrent">当前页(1)</a></li>
+</ul>
+<script type="text/javascript">
+$(function(){
+	//页面加载完成进行绑定点击事件
+	$("#pageId").on("click",".first,.pre,.next,.last",doJumpToPage);
+})
+//基于点击事件执行当前查询
+function doJumpToPage(){
+	//获取点击对象的class属性的值
+	//$(this)代表当前被点击的对象
+	var clz=$(this).prop("class")
+	//基于class属性修改当前页码值
+	//获取总页数，判断加减
+	var pageCount=$("#pageId").data("pageCount")
+	//获取当前页码值
+	var pageCurrent=$("#pageId").data("pageCurrent")
+	if(clz=="first"){
+		pageCurrent=1;
+	}else if(clz=="pre"&&pageCurrent>1){
+		pageCurrent-=1;
+	}
+	else if(clz=="next"&&pageCurrent<pageCount){
+		pageCurrent+=1;
+	}
+	else if(clz=="last"){
+		pageCurrent=pageCount;
+	}else{
+		return;
+	}
+	//3.对pageCurrent值进行重新绑定
+	$("#pageId").data("pageCurrent",pageCurrent)
+	//4.基于新的pageCurrent的值进行当前页数据查询
+	doGetObject();
+}
+//初始化页面分页信息
+function doSetPagination(data){
+	 //初始化总记录数
+	 $(".rowCount").html("总记录数("+data.rowCount+")")
+	 //初始化总页数
+	 $(".pageCount").html("总页数("+data.pageCount+")")
+	 //初始化当前页码
+	 $(".pageCurrent").html("当前页("+data.pageCurrent+")")
+	 //存储当前页码值和总页数
+	 //data函数用于在某个对象上进行数据绑定
+	 $("#pageId").data("pageCurrent",data.pageCurrent);
+	 $("#pageId").data("pageCount",data.pageCount);
+}
+</script>
+
+
+
+
+
+

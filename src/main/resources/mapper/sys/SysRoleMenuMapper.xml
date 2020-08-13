@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.pj.sys.dao.SysRoleMenuDao">
+	<delete id="deleteObjectsById">
+		delete from sys_role_menus where menu_id=#{menuId}
+	</delete>
+	<delete id="deleteObjectsByRoleId">
+		delete from sys_role_menus where role_id=#{roleId}
+	</delete>
+	<insert id="insertObject">
+		insert into sys_role_menus values<foreach collection="menuIds" separator="," item="menuId">
+			(null,#{roleId},#{menuId})
+		</foreach>
+	</insert>
+	<select id="findMenuIdsByRoleId" resultType="int">
+	select menu_id from sys_role_menus where role_id =#{id}
+	</select>
+	<select id="findMenuIdsByRoleIds" resultType="int">
+	select menu_id from sys_role_menus where role_id in
+	<foreach collection="roleIds" open="(" close=")" item="id" separator=",">#{id}</foreach>
+	</select>
+</mapper>
